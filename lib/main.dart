@@ -38,8 +38,7 @@ class HomePage extends StatelessWidget {
                 IconButton(
                   icon: Icon(Icons.refresh),
                   onPressed: () {
-                    myProvider.setParam(
-                        'https://raw.githubusercontent.com/nisrulz/flutter-examples/develop/image_from_network/img/loop_anim.gif');
+                    // myProvider.setParam('https://raw.githubusercontent.com/nisrulz/flutter-examples/develop/image_from_network/img/loop_anim.gif');
                   },
                 )
               ],
@@ -76,16 +75,14 @@ class MenuDrawer extends StatelessWidget {
             ListTile(
               title: Text('Warszawa'),
               onTap: () {
-                myProvider.setParam(
-                    'https://www.meteo.pl/um/metco/mgram_pict.php?ntype=0u&fdate=2020011712&row=406&col=250&lang=pl');
+                myProvider.setParam('Warsaw');
                 Navigator.pop(context); // TODO: move to provider
               },
             ),
             ListTile(
               title: Text('Kraków'),
               onTap: () {
-                myProvider.setParam(
-                    'https://www.meteo.pl/um/metco/mgram_pict.php?ntype=0u&fdate=2020011712&row=466&col=232&lang=pl');
+                myProvider.setParam('Cracow');
                 Navigator.pop(context);
               },
             ),
@@ -103,3 +100,5 @@ class MenuDrawer extends StatelessWidget {
     });
   }
 }
+
+// TODO: legend https://www.meteo.pl/um/metco/leg_um_en_cbase_256.png
