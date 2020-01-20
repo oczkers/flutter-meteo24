@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 final regex_fulldate = RegExp(r'var UM_FULLDATE="([0-9]{10})";'); // final?
 
@@ -30,19 +31,31 @@ String lang = 'pl';
 
 class MyProvider with ChangeNotifier {
   String url_graph = 'https://www.meteo.pl/um/metco/mgram_pict.php?ntype=0u&fdate=2020011712&row=406&col=250&lang=pl'; // default value
-  String cityname = 'Warszawa'; // default value
-  String pagename = 'Warszawa';
-  String app_title = 'Meteo24 - Warszawa';
+  String pagename;
+  String app_title = 'Meteo24';
   var cities = cities_all;
+  SharedPreferences data;
 
-  // String get getUrlGraph => _url_graph; // getter
+  MyProvider() {
+    init();
+  }
+
+  void init() async {
+    this.data = await SharedPreferences.getInstance();
+    setCity(this.data.getString('cityname') ?? 'Warszawa');
+  }
+
+  // getter
+  String cityname() {
+    return this.data.getString('cityname');
+  }
 
   // setter
   void setCity(String cityname) async {
+    this.data.setString('cityname', cityname);
     this.pagename = cityname;
-    this.cityname = cityname;
-    this.app_title = 'Meteo24 - $pagename';
-    this.url_graph = await urlGraph(this.cityname, cities[this.cityname][0], cities[this.cityname][1]);
+    this.app_title = 'Meteo24 - $cityname';
+    this.url_graph = await urlGraph(cityname);
     notifyListeners();
   }
 
@@ -55,18 +68,16 @@ class MyProvider with ChangeNotifier {
   }
 
   bool selected(String pagename) {
-    if (pagename == this.pagename) {
-      return true;
-    } else {
-      return false;
-    }
+    return pagename == this.pagename;
   }
 }
 
-Future<String> urlGraph(String cityname, int row, int col) async {
+Future<String> urlGraph(String cityname) async {
   // TODO: validate cityname, return False/None
   // get lastest valid fulldate
   http.Response rc = await http.get('https://www.meteo.pl/meteorogram_um_js.php'); // TODO: validate response status
   String fulldate = regex_fulldate.firstMatch(rc.body).group(1); // TODO: catch exceptions/validate response
+  int row = cities_all[cityname][0];
+  int col = cities_all[cityname][1];
   return 'https://www.meteo.pl/um/metco/mgram_pict.php?ntype=0u&fdate=$fulldate&row=$row&col=$col&lang=$lang'; // what is ntype?
 }

@@ -38,7 +38,7 @@ class HomePage extends StatelessWidget {
                 IconButton(
                   icon: Icon(Icons.refresh),
                   onPressed: () {
-                    myProvider.setCity(myProvider.cityname);
+                    myProvider.setCity(myProvider.cityname());
                   },
                 ),
                 IconButton(

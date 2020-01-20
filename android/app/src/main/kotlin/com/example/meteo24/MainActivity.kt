@@ -1,4 +1,4 @@
-package com.example.meteo24
+package com.get24.meteo24
 
 import androidx.annotation.NonNull;
 import io.flutter.embedding.android.FlutterActivity
