@@ -33,14 +33,18 @@ class HomePage extends StatelessWidget {
       builder: (context, myProvider, _) {
         return Scaffold(
             appBar: AppBar(
-              title: Text(app_title),
+              title: Text(myProvider.app_title),
               actions: <Widget>[
                 IconButton(
                   icon: Icon(Icons.refresh),
                   onPressed: () {
                     myProvider.setCity(myProvider.cityname);
                   },
-                )
+                ),
+                IconButton(
+                  icon: Icon(Icons.settings),
+                  // onPressed: () {},
+                ),
               ],
             ),
             drawer: MenuDrawer(),
@@ -57,20 +61,32 @@ class MenuDrawer extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<MyProvider>(builder: (context, myProvider, _) {
       return Drawer(
-        child: Container(
-          child: ListView.builder(
-            itemCount: myProvider.cities.length,
-            itemBuilder: (BuildContext context, int index) {
-              var cityname = myProvider.cities.keys.toList()[index];
-              return ListTile(
-                title: Text(cityname),
-                onTap: () {
-                  myProvider.setCity(cityname);
-                  Navigator.pop(context); // TODO?: move to provider
+        child: Column(
+          children: <Widget>[
+            Expanded(
+              child: ListView.builder(
+                itemCount: 10, // only top10 / myProvider.cities.length
+                itemBuilder: (_, index) {
+                  var cityname = myProvider.cities.keys.toList()[index];
+                  return ListTile(
+                    title: Text(cityname),
+                    onTap: () {
+                      myProvider.setCity(cityname);
+                      Navigator.pop(context); // TODO?: move to provider
+                    },
+                  );
                 },
-              );
-            },
-          ),
+              ),
+            ),
+            Divider(),
+            ListTile(
+              title: Text('Legenda'),
+              onTap: () {
+                myProvider.displayLegend();
+                Navigator.pop(context); // TODO?: move to provider
+              },
+            ),
+          ],
         ),
         // child: Column(
         //   children: <Widget>[

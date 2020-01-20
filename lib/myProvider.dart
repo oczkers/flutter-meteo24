@@ -1,25 +1,52 @@
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 
-RegExp regex_fulldate = RegExp(r'var UM_FULLDATE="([0-9]{10})";'); // final?
+final regex_fulldate = RegExp(r'var UM_FULLDATE="([0-9]{10})";'); // final?
 
-String lang = 'en';
+final cities_all = {
+  // cityname: [row, col]
+  'Warszawa': [406, 250],
+  'Kraków': [466, 232],
+  'Łódź': [418, 223],
+  'Wrocław': [436, 181],
+  'Poznań': [400, 180],
+  'Gdańsk': [346, 210],
+  'Szczecin': [370, 142],
+  'Bydgoszcz': [381, 199],
+  'Lublin': [432, 277],
+  'Białystok': [379, 285],
+  // ^ top 10 ^
+  'Gorzów Wielkopolski': [390, 152],
+  'Katowice': [461, 215],
+  'Kielce': [443, 244],
+  'Olsztyn': [363, 240],
+  'Opole': [449, 196],
+  'Rzeszów': [465, 269],
+  'Toruń': [383, 209],
+  'Zielona Góra': [412, 155],
+};
+
+String lang = 'pl';
 
 class MyProvider with ChangeNotifier {
   String url_graph = 'https://www.meteo.pl/um/metco/mgram_pict.php?ntype=0u&fdate=2020011712&row=406&col=250&lang=pl'; // default value
-  String cityname = 'Warsaw'; // default value
-  var cities = {
-    // cityname: [row, col]
-    'Warsaw': [406, 250],
-    'Cracow': [466, 232],
-  };
+  String cityname = 'Warszawa'; // default value
+  String app_title = 'Meteo24 - Warszawa';
+  var cities = cities_all;
 
   // String get getUrlGraph => _url_graph; // getter
 
   // setter
   void setCity(String cityname) async {
     this.cityname = cityname;
-    this.url_graph = await urlGraph(cityname, cities[cityname][0], cities[cityname][1]);
+    this.app_title = 'Meteo24 - $cityname';
+    this.url_graph = await urlGraph(this.cityname, cities[this.cityname][0], cities[this.cityname][1]);
+    notifyListeners();
+  }
+
+  void displayLegend() {
+    this.url_graph = 'https://www.meteo.pl/um/metco/leg_um_pl_cbase_256.png';
+    this.app_title = 'Meteo24 - Legenda';
     notifyListeners();
   }
 }
