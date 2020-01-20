@@ -38,14 +38,14 @@ class HomePage extends StatelessWidget {
                 IconButton(
                   icon: Icon(Icons.refresh),
                   onPressed: () {
-                    // myProvider.setParam('https://raw.githubusercontent.com/nisrulz/flutter-examples/develop/image_from_network/img/loop_anim.gif');
+                    myProvider.setCity(myProvider.cityname);
                   },
                 )
               ],
             ),
             drawer: MenuDrawer(),
             body: Center(
-              child: Image.network(myProvider.getParam),
+              child: Image.network(myProvider.url_graph),
             ));
       },
     );
@@ -57,45 +57,60 @@ class MenuDrawer extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<MyProvider>(builder: (context, myProvider, _) {
       return Drawer(
-        child: Column(
-          children: <Widget>[
-            Padding(padding: EdgeInsets.only(top: 40)), // topbar
-            // UserAccountsDrawerHeader(),
-            Center(
-              child: Text(
-                'Cities',
-                style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 18,
-                    // fontStyle: FontStyle.italic,
-                    color: Colors.blueGrey),
-              ),
-            ),
-            Divider(),
-            ListTile(
-              title: Text('Warszawa'),
-              onTap: () {
-                myProvider.setParam('Warsaw');
-                Navigator.pop(context); // TODO: move to provider
-              },
-            ),
-            ListTile(
-              title: Text('Kraków'),
-              onTap: () {
-                myProvider.setParam('Cracow');
-                Navigator.pop(context);
-              },
-            ),
-            Expanded(
-              child: Align(
-                alignment: FractionalOffset.bottomCenter,
-                child: ListTile(
-                  title: Text('bottom menu'),
-                ),
-              ),
-            ),
-          ],
+        child: Container(
+          child: ListView.builder(
+            itemCount: myProvider.cities.length,
+            itemBuilder: (BuildContext context, int index) {
+              var cityname = myProvider.cities.keys.toList()[index];
+              return ListTile(
+                title: Text(cityname),
+                onTap: () {
+                  myProvider.setCity(cityname);
+                  Navigator.pop(context); // TODO?: move to provider
+                },
+              );
+            },
+          ),
         ),
+        // child: Column(
+        //   children: <Widget>[
+        //     Padding(padding: EdgeInsets.only(top: 40)), // topbar
+        //     // UserAccountsDrawerHeader(),
+        //     Center(
+        //       child: Text(
+        //         'Cities',
+        //         style: TextStyle(
+        //             fontWeight: FontWeight.bold,
+        //             fontSize: 18,
+        //             // fontStyle: FontStyle.italic,
+        //             color: Colors.blueGrey),
+        //       ),
+        //     ),
+        //     Divider(),
+        //     ListTile(
+        //       title: Text('Warszawa'),
+        //       onTap: () {
+        //         myProvider.setParam('Warsaw');
+        //         Navigator.pop(context); // TODO: move to provider
+        //       },
+        //     ),
+        //     ListTile(
+        //       title: Text('Kraków'),
+        //       onTap: () {
+        //         myProvider.setParam('Cracow');
+        //         Navigator.pop(context);
+        //       },
+        //     ),
+        //     Expanded(
+        //       child: Align(
+        //         alignment: FractionalOffset.bottomCenter,
+        //         child: ListTile(
+        //           title: Text('bottom menu'),
+        //         ),
+        //       ),
+        //     ),
+        //   ],
+        // ),
       );
     });
   }
