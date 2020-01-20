@@ -69,6 +69,7 @@ class MenuDrawer extends StatelessWidget {
                 itemBuilder: (_, index) {
                   var cityname = myProvider.cities.keys.toList()[index];
                   return ListTile(
+                    selected: myProvider.selected(cityname),
                     title: Text(cityname),
                     onTap: () {
                       myProvider.setCity(cityname);
@@ -79,7 +80,12 @@ class MenuDrawer extends StatelessWidget {
               ),
             ),
             Divider(),
+            // ListTile(
+            //   title: Text('Komentarz'),
+            //   onTap: () {}, // https://www.meteo.pl/komentarze/index1.php
+            // ),
             ListTile(
+              selected: myProvider.selected('legend'),
               title: Text('Legenda'),
               onTap: () {
                 myProvider.displayLegend();

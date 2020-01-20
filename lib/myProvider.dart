@@ -31,6 +31,7 @@ String lang = 'pl';
 class MyProvider with ChangeNotifier {
   String url_graph = 'https://www.meteo.pl/um/metco/mgram_pict.php?ntype=0u&fdate=2020011712&row=406&col=250&lang=pl'; // default value
   String cityname = 'Warszawa'; // default value
+  String pagename = 'Warszawa';
   String app_title = 'Meteo24 - Warszawa';
   var cities = cities_all;
 
@@ -38,16 +39,27 @@ class MyProvider with ChangeNotifier {
 
   // setter
   void setCity(String cityname) async {
+    this.pagename = cityname;
     this.cityname = cityname;
-    this.app_title = 'Meteo24 - $cityname';
+    this.app_title = 'Meteo24 - $pagename';
     this.url_graph = await urlGraph(this.cityname, cities[this.cityname][0], cities[this.cityname][1]);
     notifyListeners();
   }
 
   void displayLegend() {
+    // TODO?: merge into setcity
     this.url_graph = 'https://www.meteo.pl/um/metco/leg_um_pl_cbase_256.png';
     this.app_title = 'Meteo24 - Legenda';
+    this.pagename = 'legend';
     notifyListeners();
+  }
+
+  bool selected(String pagename) {
+    if (pagename == this.pagename) {
+      return true;
+    } else {
+      return false;
+    }
   }
 }
 
