@@ -28,10 +28,12 @@ class MenuDrawer extends StatelessWidget {
               ),
             ),
             Divider(),
-            // ListTile(
-            //   title: Text('Komentarz'),
-            //   onTap: () {}, // https://www.meteo.pl/komentarze/index1.php
-            // ),
+            ListTile(
+              title: Text('Komentarz'),
+              onTap: () {
+                Router.navigator.pushNamed(Router.commentPage);
+              },
+            ),
             ListTile(
               selected: myProvider.selected('legend'),
               title: Text('Legenda'),

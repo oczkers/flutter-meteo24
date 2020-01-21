@@ -9,10 +9,10 @@ class CommentPage extends StatelessWidget {
       builder: (context, myProvider, _) {
         return Scaffold(
           appBar: AppBar(
-            title: Text('Meteo24 - Legenda'),
+            title: Text('Meteo24 - Komentarz'),
           ),
           body: Center(
-            child: Text('comment'),
+            child: Text(myProvider.comment),
           ),
         );
       },

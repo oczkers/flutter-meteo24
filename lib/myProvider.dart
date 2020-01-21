@@ -3,6 +3,7 @@ import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
 final regex_fulldate = RegExp(r'var UM_FULLDATE="([0-9]{10})";'); // final?
+final regex_comment = RegExp(r'[\s\S]*>\s{2}([\s\S]*?)\s<\/div>');
 
 final cities_all = {
   // cityname: [row, col]
@@ -32,6 +33,7 @@ String lang = 'pl';
 class MyProvider with ChangeNotifier {
   String cityname = 'Warszawa';
   String url_graph = 'https://www.meteo.pl/um/metco/mgram_pict.php?ntype=0u&fdate=2020011712&row=406&col=250&lang=pl'; // default value
+  String comment = '';
   var cities = cities_all;
   SharedPreferences _data;
 
@@ -42,13 +44,14 @@ class MyProvider with ChangeNotifier {
   Future init() async {
     this._data = await SharedPreferences.getInstance();
     this.cityname = this._data.getString('cityname') ?? this.cityname; // refactor
-    return true;
+    this.comment = await getComment();
   }
 
   void setCity(String cityname) async {
     this.cityname = cityname;
     this._data.setString('cityname', cityname);
     this.url_graph = await urlGraph(cityname);
+    this.comment = await getComment();
     notifyListeners();
   }
 
@@ -65,4 +68,12 @@ Future<String> urlGraph(String cityname) async {
   int row = cities_all[cityname][0];
   int col = cities_all[cityname][1];
   return 'https://www.meteo.pl/um/metco/mgram_pict.php?ntype=0u&fdate=$fulldate&row=$row&col=$col&lang=$lang'; // what is ntype?
+}
+
+Future<String> getComment() async {
+  // TODO: fix charset/encoding https://pub.dev/packages/charset_converter or some other library
+  http.Response rc = await http.get('https://www.meteo.pl/komentarze/index1.php');
+  String comment = regex_comment.firstMatch(rc.body).group(1);
+  print(comment);
+  return comment;
 }
