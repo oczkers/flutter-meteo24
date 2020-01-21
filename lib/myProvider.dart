@@ -30,37 +30,30 @@ final cities_all = {
 String lang = 'pl';
 
 class MyProvider with ChangeNotifier {
+  String cityname = 'Warszawa';
   String url_graph = 'https://www.meteo.pl/um/metco/mgram_pict.php?ntype=0u&fdate=2020011712&row=406&col=250&lang=pl'; // default value
-  String pagename;
-  String app_title = 'Meteo24';
   var cities = cities_all;
-  SharedPreferences data;
+  SharedPreferences _data;
 
   MyProvider() {
     init();
   }
 
-  void init() async {
-    this.data = await SharedPreferences.getInstance();
-    setCity(this.data.getString('cityname') ?? 'Warszawa');
+  Future init() async {
+    this._data = await SharedPreferences.getInstance();
+    this.cityname = this._data.getString('cityname') ?? this.cityname; // refactor
+    return true;
   }
 
-  // getter
-  String cityname() {
-    return this.data.getString('cityname');
-  }
-
-  // setter
   void setCity(String cityname) async {
-    this.data.setString('cityname', cityname);
-    this.pagename = cityname;
-    this.app_title = 'Meteo24 - $cityname';
+    this.cityname = cityname;
+    this._data.setString('cityname', cityname);
     this.url_graph = await urlGraph(cityname);
     notifyListeners();
   }
 
-  bool selected(String pagename) {
-    return pagename == this.pagename;
+  bool selected(String cityname) {
+    return cityname == this.cityname;
   }
 }
 

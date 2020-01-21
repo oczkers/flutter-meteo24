@@ -12,12 +12,12 @@ class InitPage extends StatelessWidget {
       builder: (context, myProvider, _) {
         return Scaffold(
             appBar: AppBar(
-              title: Text(myProvider.app_title),
+              title: Text('Meteo24 - ${myProvider.cityname}'),
               actions: <Widget>[
                 IconButton(
                   icon: Icon(Icons.refresh),
                   onPressed: () {
-                    myProvider.setCity(myProvider.cityname());
+                    myProvider.setCity(myProvider.cityname);
                   },
                 ),
                 IconButton(
