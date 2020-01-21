@@ -59,14 +59,6 @@ class MyProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  void displayLegend() {
-    // TODO?: merge into setcity
-    this.url_graph = 'https://www.meteo.pl/um/metco/leg_um_pl_cbase_256.png';
-    this.app_title = 'Meteo24 - Legenda';
-    this.pagename = 'legend';
-    notifyListeners();
-  }
-
   bool selected(String pagename) {
     return pagename == this.pagename;
   }
