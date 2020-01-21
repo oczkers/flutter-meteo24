@@ -11,7 +11,7 @@ class CommentPage extends StatelessWidget {
           appBar: AppBar(
             title: Text('Meteo24 - Komentarz'),
           ),
-          body: Center(
+          body: SingleChildScrollView(
             child: Text(myProvider.comment),
           ),
         );

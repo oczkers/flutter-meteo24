@@ -6,6 +6,7 @@ import '../myProvider.dart';
 import 'menubar.dart';
 
 // city graph
+// TODO: RefreshIndicator - swipe to refresh
 class InitPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<MyProvider>(

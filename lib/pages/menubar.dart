@@ -21,7 +21,7 @@ class MenuDrawer extends StatelessWidget {
                     title: Text(cityname),
                     onTap: () {
                       myProvider.setCity(cityname);
-                      Navigator.pop(context); // TODO?: move to provider
+                      Router.navigator.pop(); // TODO?: move to provider
                     },
                   );
                 },
@@ -31,6 +31,7 @@ class MenuDrawer extends StatelessWidget {
             ListTile(
               title: Text('Komentarz'),
               onTap: () {
+                Router.navigator.pop();
                 Router.navigator.pushNamed(Router.commentPage);
               },
             ),
@@ -38,6 +39,7 @@ class MenuDrawer extends StatelessWidget {
               selected: myProvider.selected('legend'),
               title: Text('Legenda'),
               onTap: () {
+                Router.navigator.pop();
                 Router.navigator.pushNamed(Router.legendPage);
               },
             ),

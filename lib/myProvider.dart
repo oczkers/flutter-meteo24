@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:charset_converter/charset_converter.dart';
 
 final regex_fulldate = RegExp(r'var UM_FULLDATE="([0-9]{10})";'); // final?
 final regex_comment = RegExp(r'[\s\S]*>\s{2}([\s\S]*?)\s<\/div>');
@@ -31,6 +32,7 @@ final cities_all = {
 String lang = 'pl';
 
 class MyProvider with ChangeNotifier {
+  // TODO?: save last graph on disk
   String cityname = 'Warszawa';
   String url_graph = 'https://www.meteo.pl/um/metco/mgram_pict.php?ntype=0u&fdate=2020011712&row=406&col=250&lang=pl'; // default value
   String comment = '';
@@ -73,7 +75,10 @@ Future<String> urlGraph(String cityname) async {
 Future<String> getComment() async {
   // TODO: fix charset/encoding https://pub.dev/packages/charset_converter or some other library
   http.Response rc = await http.get('https://www.meteo.pl/komentarze/index1.php');
-  String comment = regex_comment.firstMatch(rc.body).group(1);
+  String rcc = await CharsetConverter.decode('ISO-8859-2', rc.bodyBytes);
+  rcc = rcc.replaceAll('<P> ', '\n\n');
+  rcc = rcc.replaceAll('&#8211;', '-');
+  String comment = regex_comment.firstMatch(rcc).group(1);
   print(comment);
   return comment;
 }
