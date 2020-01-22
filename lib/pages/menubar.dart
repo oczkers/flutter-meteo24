@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:provider/provider.dart';
 
 import '../myProvider.dart';
@@ -16,11 +17,19 @@ class MenuDrawer extends StatelessWidget {
                 itemCount: myProvider.cities.length,
                 itemBuilder: (_, index) {
                   var cityname = myProvider.cities[index];
-                  return Dismissible(
-                    key: UniqueKey(),
-                    onDismissed: (direction) {
-                      myProvider.removeCity(cityname);
-                    },
+                  return Slidable(
+                    // actionExtentRatio: 0.25,
+                    actionPane: SlidableBehindActionPane(),
+                    secondaryActions: <Widget>[
+                      IconSlideAction(
+                        caption: 'Usuń',
+                        color: Colors.red,
+                        icon: Icons.delete,
+                        onTap: () {
+                          myProvider.removeCity(cityname);
+                        },
+                      )
+                    ],
                     child: ListTile(
                       selected: myProvider.selected(cityname),
                       title: Text(cityname),
