@@ -36,7 +36,7 @@ class MyProvider with ChangeNotifier {
   String cityname = 'Warszawa';
   String url_graph = 'https://www.meteo.pl/um/metco/mgram_pict.php?ntype=0u&fdate=2020011712&row=406&col=250&lang=pl'; // default value
   String comment = '';
-  var cities = cities_all;
+  List<String> cities = cities_all.keys.toList().sublist(0, 10);
   SharedPreferences _data;
 
   MyProvider() {
@@ -44,16 +44,25 @@ class MyProvider with ChangeNotifier {
   }
 
   Future init() async {
+    // TODO?: toast helpers on first run https://pub.dev/packages/toast
     this._data = await SharedPreferences.getInstance();
     this.cityname = this._data.getString('cityname') ?? this.cityname; // refactor
+    this.cities = this._data.getStringList('cities') ?? this.cities; // first top 10 cities
     this.comment = await getComment();
   }
 
   void setCity(String cityname) async {
+    // TODO?: load refresh animation before trying to load image
     this.cityname = cityname;
     this._data.setString('cityname', cityname);
     this.url_graph = await urlGraph(cityname);
+    notifyListeners();
     this.comment = await getComment();
+  }
+
+  void removeCity(String cityname) {
+    this.cities.remove(cityname);
+    this._data.setStringList('cities', this.cities);
     notifyListeners();
   }
 
@@ -78,6 +87,7 @@ Future<String> getComment() async {
   String rcc = await CharsetConverter.decode('ISO-8859-2', rc.bodyBytes);
   rcc = rcc.replaceAll('<P> ', '\n\n');
   rcc = rcc.replaceAll('&#8211;', '-');
+  rcc = rcc.replaceAll('&#8222;', '"'); // this is probably bad coding, TODO: find valid charset
   String comment = regex_comment.firstMatch(rcc).group(1);
   print(comment);
   return comment;

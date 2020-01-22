@@ -22,7 +22,7 @@ class InitPage extends StatelessWidget {
                   },
                 ),
                 IconButton(
-                  icon: Icon(Icons.settings),
+                  icon: Icon(Icons.settings), // add settings, licenses etc.
                   // onPressed: () {},
                 ),
               ],

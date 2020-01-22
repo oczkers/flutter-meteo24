@@ -13,16 +13,22 @@ class MenuDrawer extends StatelessWidget {
           children: <Widget>[
             Expanded(
               child: ListView.builder(
-                itemCount: 10, // only top10 / myProvider.cities.length
+                itemCount: myProvider.cities.length,
                 itemBuilder: (_, index) {
-                  var cityname = myProvider.cities.keys.toList()[index];
-                  return ListTile(
-                    selected: myProvider.selected(cityname),
-                    title: Text(cityname),
-                    onTap: () {
-                      myProvider.setCity(cityname);
-                      Router.navigator.pop(); // TODO?: move to provider
+                  var cityname = myProvider.cities[index];
+                  return Dismissible(
+                    key: UniqueKey(),
+                    onDismissed: (direction) {
+                      myProvider.removeCity(cityname);
                     },
+                    child: ListTile(
+                      selected: myProvider.selected(cityname),
+                      title: Text(cityname),
+                      onTap: () {
+                        myProvider.setCity(cityname);
+                        Router.navigator.pop(); // TODO?: move to provider
+                      },
+                    ),
                   );
                 },
               ),
