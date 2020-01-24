@@ -21,11 +21,12 @@ class AddcityPage extends StatelessWidget {
             ],
           ),
           body: ListView.builder(
-            itemCount: myProvider.citiesAll.length,
+            itemCount: myProvider.cities_all.length,
             itemBuilder: (_, index) {
-              var cityname = myProvider.citiesAll[index];
+              var cityname = myProvider.cities_all.keys.toList()[index]; // this is ugly, should be parsed in model
               return ListTile(
                 title: Text(cityname),
+                // subtitle: Text(myProvider.cities_all[cityname]['province']),  // country, province, county
                 onTap: () {
                   myProvider.addCity(cityname);
                   Router.navigator.pop();

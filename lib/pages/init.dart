@@ -29,9 +29,9 @@ class InitPage extends StatelessWidget {
               ),
               IconButton(
                 icon: Icon(Icons.settings), // add settings, licenses etc.
-                onPressed: () {
-                  Router.navigator.pushNamed(Router.settingsPage);
-                },
+                // onPressed: () {
+                //   Router.navigator.pushNamed(Router.settingsPage);
+                // },
               ),
             ],
           ),
