@@ -4,7 +4,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:charset_converter/charset_converter.dart';
 
 final regex_fulldate = RegExp(r'var UM_FULLDATE="([0-9]{10})";'); // final?
-final regex_comment = RegExp(r'[\s\S]*>\s{2}([\s\S]*?)\s<\/div>');
+final regex_comment = RegExp(r'<div style="padding: 15px; background-color:#fff; background-color:rgba\(255,255,255,0\.6\); margin:10px; border-radius: 10px;">\s{2}([\s\S]*?)\s<\/div>');
 
 final cities_all = {
   // cityname: [row, col]
@@ -85,9 +85,9 @@ Future<String> getComment() async {
   // TODO: fix charset/encoding https://pub.dev/packages/charset_converter or some other library
   http.Response rc = await http.get('https://www.meteo.pl/komentarze/index1.php');
   String rcc = await CharsetConverter.decode('ISO-8859-2', rc.bodyBytes);
-  rcc = rcc.replaceAll('<P> ', '\n\n');
-  rcc = rcc.replaceAll('&#8211;', '-');
-  rcc = rcc.replaceAll('&#8222;', '"'); // this is probably bad coding, TODO: find valid charset
+  // rcc = rcc.replaceAll('<P> ', '\n\n'); // done by html render
+  // rcc = rcc.replaceAll('&#8211;', '-');
+  // rcc = rcc.replaceAll('&#8222;', '"'); // this is probably bad coding, TODO: find valid charset
   String comment = regex_comment.firstMatch(rcc).group(1);
   print(comment);
   return comment;

@@ -13,12 +13,12 @@ class MenuDrawer extends StatelessWidget {
         child: Column(
           children: <Widget>[
             Expanded(
+              // TODO?: customizable favourite items on top
               child: ListView.builder(
                 itemCount: myProvider.cities.length,
                 itemBuilder: (_, index) {
                   var cityname = myProvider.cities[index];
                   return Slidable(
-                    // actionExtentRatio: 0.25,
                     actionPane: SlidableBehindActionPane(),
                     secondaryActions: <Widget>[
                       IconSlideAction(
