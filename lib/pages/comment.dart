@@ -11,7 +11,7 @@ class CommentPage extends StatelessWidget {
       builder: (context, myProvider, _) {
         return Scaffold(
           appBar: AppBar(
-            title: Text('Meteo24 - Komentarz'),
+            title: Text('Komentarz'),
           ),
           body: SingleChildScrollView(
             child: Html(

@@ -3,10 +3,10 @@ import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:charset_converter/charset_converter.dart';
 
-final regex_fulldate = RegExp(r'var UM_FULLDATE="([0-9]{10})";'); // final?
-final regex_comment = RegExp(r'<div style="padding: 15px; background-color:#fff; background-color:rgba\(255,255,255,0\.6\); margin:10px; border-radius: 10px;">\s{2}([\s\S]*?)\s<\/div>');
+final RegExp regex_fulldate = RegExp(r'var UM_FULLDATE="([0-9]{10})";'); // final?
+final RegExp regex_comment = RegExp(r'<div style="padding: 15px; background-color:#fff; background-color:rgba\(255,255,255,0\.6\); margin:10px; border-radius: 10px;">\s{2}([\s\S]*?)\s<\/div>');
 
-final cities_all = {
+final Map<String, List<int>> cities_all = {
   // cityname: [row, col]
   'Warszawa': [406, 250],
   'Kraków': [466, 232],
@@ -36,6 +36,7 @@ class MyProvider with ChangeNotifier {
   String cityname = 'Warszawa';
   String url_graph = 'https://www.meteo.pl/um/metco/mgram_pict.php?ntype=0u&fdate=2020011712&row=406&col=250&lang=pl'; // default value
   String comment = '';
+  List<String> citiesAll = cities_all.keys.toList();
   List<String> cities = cities_all.keys.toList().sublist(0, 10);
   SharedPreferences _data;
 
@@ -48,7 +49,7 @@ class MyProvider with ChangeNotifier {
     this._data = await SharedPreferences.getInstance();
     // TODO: use setCity instead of duplicating code
     this.cityname = this._data.getString('cityname') ?? this.cityname; // refactor
-    this.cities = this._data.getStringList('cities') ?? this.cities; // first top 10 cities
+    this.cities = this._data.getStringList('cities') ?? this.cities; // defaults to first top 10 cities
     this.url_graph = await urlGraph(cityname);
     notifyListeners();
     this.comment = await getComment();
@@ -58,9 +59,23 @@ class MyProvider with ChangeNotifier {
     // TODO?: load refresh animation before trying to load image
     this.cityname = cityname;
     this._data.setString('cityname', cityname);
+    // move active city to top
+    this.cities.remove(cityname);
+    this.cities.insert(0, cityname);
+    // get grapg
     this.url_graph = await urlGraph(cityname);
     notifyListeners();
     this.comment = await getComment();
+  }
+
+  void addCity(String cityname) {
+    if (!this.cities.contains(cityname)) {
+      // TODO?: remove active cities from list instead of silently ommiting
+      this.cities.add(cityname);
+      this._data.setStringList('cities', this.cities);
+    }
+    this.setCity(cityname);
+    // notifyListeners();
   }
 
   void removeCity(String cityname) {

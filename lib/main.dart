@@ -8,7 +8,7 @@ import 'package:provider/provider.dart';
 import 'myProvider.dart';
 // import 'package:meteo24/myProvider.dart';
 
-final String app_title = 'Meteo24';
+// final String app_title = 'Meteo24';
 
 void main() => runApp(MyApp());
 

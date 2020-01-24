@@ -3,6 +3,7 @@ import 'pages/init.dart';
 import 'pages/legend.dart';
 import 'pages/comment.dart';
 import 'pages/settings.dart';
+import 'pages/addcity.dart';
 
 @autoRouter
 class $Router {
@@ -11,4 +12,5 @@ class $Router {
   LegendPage legendPage;
   CommentPage commentPage;
   SettingsPage settingsPage;
+  AddcityPage addcityPage;
 }

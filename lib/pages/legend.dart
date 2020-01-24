@@ -9,7 +9,7 @@ class LegendPage extends StatelessWidget {
       builder: (context, myProvider, _) {
         return Scaffold(
           appBar: AppBar(
-            title: Text('Meteo24 - Legenda'),
+            title: Text('Legenda'),
           ),
           body: Center(
             child: Image.network('https://www.meteo.pl/um/metco/leg_um_pl_cbase_256.png'),

@@ -9,7 +9,7 @@ class SettingsPage extends StatelessWidget {
       builder: (context, myProvider, _) {
         return Scaffold(
           appBar: AppBar(
-            title: Text('Meteo24 - Ustawienia'),
+            title: Text('Ustawienia'),
           ),
           body: Text('cześć'),
         );
