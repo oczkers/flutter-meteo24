@@ -31,7 +31,7 @@ class MyProvider with ChangeNotifier {
     this._data = await SharedPreferences.getInstance();
     // TODO: use setCity instead of duplicating code
     this.cityname = this._data.getString('cityname') ?? this.cityname; // refactor
-    this.cities = this._data.getStringList('cities') ?? [this.cityname]; // defaults to Warsaw
+    this.cities = this._data.getStringList('cities') ?? ['Warszawa', 'Kraków', 'Łódź', 'Wrocław', 'Poznań', 'Gdańsk', 'Szczecin', 'Bydgoszcz', 'Lublin', 'Białystok']; // defaults to top10
     this.url_graph = await this.urlGraph(cityname);
     notifyListeners();
     this.comment = await getComment();
