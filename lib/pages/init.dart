@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../myProvider.dart';
-
+import '../routes.gr.dart';
 import 'menubar.dart';
 
 // city graph
@@ -23,7 +23,10 @@ class InitPage extends StatelessWidget {
                 ),
                 IconButton(
                   icon: Icon(Icons.settings), // add settings, licenses etc.
-                  // onPressed: () {},
+                  onPressed: () {
+                    //Router.navigator.pop();
+                    Router.navigator.pushNamed(Router.settingsPage);
+                  },
                 ),
               ],
             ),

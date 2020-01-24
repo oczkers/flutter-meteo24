@@ -46,8 +46,11 @@ class MyProvider with ChangeNotifier {
   Future init() async {
     // TODO?: toast helpers on first run https://pub.dev/packages/toast
     this._data = await SharedPreferences.getInstance();
+    // TODO: use setCity instead of duplicating code
     this.cityname = this._data.getString('cityname') ?? this.cityname; // refactor
     this.cities = this._data.getStringList('cities') ?? this.cities; // first top 10 cities
+    this.url_graph = await urlGraph(cityname);
+    notifyListeners();
     this.comment = await getComment();
   }
 
