@@ -2,22 +2,22 @@ import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:provider/provider.dart';
 
-import '../myProvider.dart';
+import '../data.dart';
 import '../routes.gr.dart';
 
 class MenuDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Consumer<MyProvider>(builder: (context, myProvider, _) {
+    return Consumer<Data>(builder: (context, data, _) {
       return Drawer(
         child: Column(
           children: <Widget>[
             Expanded(
               // TODO?: customizable favourite items on top
               child: ListView.builder(
-                itemCount: myProvider.cities.length,
+                itemCount: data.cities.length,
                 itemBuilder: (_, index) {
-                  var cityname = myProvider.cities[index];
+                  var cityname = data.cities[index];
                   return Slidable(
                     actionPane: SlidableBehindActionPane(),
                     secondaryActions: <Widget>[
@@ -26,15 +26,15 @@ class MenuDrawer extends StatelessWidget {
                         color: Colors.red,
                         icon: Icons.delete,
                         onTap: () {
-                          myProvider.removeCity(cityname);
+                          data.removeCity(cityname);
                         },
                       )
                     ],
                     child: ListTile(
-                      selected: myProvider.selected(cityname),
+                      selected: data.selected(cityname),
                       title: Text(cityname),
                       onTap: () {
-                        myProvider.setCity(cityname);
+                        data.setCity(cityname);
                         Router.navigator.pop(); // TODO?: move to provider
                       },
                     ),
@@ -51,7 +51,7 @@ class MenuDrawer extends StatelessWidget {
               },
             ),
             ListTile(
-              selected: myProvider.selected('legend'),
+              selected: data.selected('legend'),
               title: Text('Legenda'),
               onTap: () {
                 Router.navigator.pop();

@@ -5,7 +5,7 @@
 import 'package:flutter/material.dart';
 import 'package:meteo24/routes.gr.dart';
 import 'package:provider/provider.dart';
-import 'myProvider.dart';
+import 'data.dart';
 // import 'package:meteo24/myProvider.dart';
 
 // final String app_title = 'Meteo24';
@@ -17,7 +17,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (_) => MyProvider()),
+        ChangeNotifierProvider(create: (_) => Data()),
       ],
       child: MaterialApp(
         // title: app_title,

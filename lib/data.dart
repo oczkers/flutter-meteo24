@@ -10,7 +10,7 @@ final RegExp regex_comment = RegExp(r'<div style="padding: 15px; background-colo
 
 final String lang = 'pl';
 
-class MyProvider with ChangeNotifier {
+class Data with ChangeNotifier {
   // TODO?: save last graph on disk
   Map<String, dynamic> cities_all;
   String cityname = 'Warszawa';
@@ -20,7 +20,7 @@ class MyProvider with ChangeNotifier {
   List<String> cities;
   SharedPreferences _data;
 
-  MyProvider() {
+  Data() {
     init();
   }
 

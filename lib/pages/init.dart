@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../myProvider.dart';
+import '../data.dart';
 import '../routes.gr.dart';
 import 'menubar.dart';
 
@@ -9,11 +9,11 @@ import 'menubar.dart';
 // TODO: RefreshIndicator - swipe to refresh
 class InitPage extends StatelessWidget {
   Widget build(BuildContext context) {
-    return Consumer<MyProvider>(
-      builder: (context, myProvider, _) {
+    return Consumer<Data>(
+      builder: (context, data, _) {
         return Scaffold(
           appBar: AppBar(
-            title: Text(myProvider.cityname),
+            title: Text(data.cityname),
             actions: <Widget>[
               IconButton(
                 icon: Icon(Icons.add),
@@ -24,7 +24,7 @@ class InitPage extends StatelessWidget {
               IconButton(
                 icon: Icon(Icons.refresh),
                 onPressed: () {
-                  myProvider.setCity(myProvider.cityname);
+                  data.setCity(data.cityname);
                 },
               ),
               IconButton(
@@ -37,7 +37,7 @@ class InitPage extends StatelessWidget {
           ),
           drawer: MenuDrawer(),
           body: Center(
-            child: Image.network(myProvider.url_graph),
+            child: Image.network(data.url_graph),
           ),
         );
       },
