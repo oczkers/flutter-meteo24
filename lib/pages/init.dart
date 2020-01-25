@@ -18,6 +18,7 @@ class InitPage extends StatelessWidget {
               IconButton(
                 icon: Icon(Icons.add),
                 onPressed: () {
+                  data.searchCity(''); // remove old searches
                   Router.navigator.pushNamed(Router.addcityPage);
                 },
               ),

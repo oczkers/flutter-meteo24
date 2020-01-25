@@ -18,6 +18,7 @@ class Data with ChangeNotifier {
   String url_graph = 'https://www.meteo.pl/um/metco/mgram_pict.php?ntype=0u&fdate=2020011712&row=406&col=250&lang=pl';
   String comment;
   List<String> cities;
+  List<String> cities_found = [];
   SharedPreferences _data;
 
   Data() {
@@ -65,6 +66,31 @@ class Data with ChangeNotifier {
     // TODO: if city is active (top), change to second and reload graph
     this.cities.remove(cityname);
     this._data.setStringList('cities', this.cities);
+    notifyListeners();
+  }
+
+  List<String> searchCity(String letters) {
+    // TODO: refactor
+    if (letters == '') {
+      this.cities_found = this.cities_all.keys.toList();
+    } else {
+      letters = letters.toLowerCase();
+      List<String> cities_found_top = [];
+      this.cities_found = [];
+      for (String i in this.cities_all.keys) {
+        if (i.toLowerCase().contains(letters)) {
+          if (i.toLowerCase().substring(0, letters.length) == letters) {
+            cities_found_top.add(i);
+          } else {
+            this.cities_found.add(i);
+          }
+        }
+      }
+      cities_found_top.sort();
+      cities_found_top.addAll(this.cities_found);
+      this.cities_found = cities_found_top;
+      // this.cities_found = this.cities_all.keys.toList().where((i) => i.toLowerCase().contains(letters.toLowerCase())).toList();
+    }
     notifyListeners();
   }
 
