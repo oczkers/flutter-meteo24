@@ -63,7 +63,10 @@ class Data with ChangeNotifier {
   }
 
   void removeCity(String cityname) {
-    // TODO: if city is active (top), change to second and reload graph
+    if (cityname == this.cityname) {
+      // TODO: if city is active (top), change to second and reload graph
+      this.setCity(this.cities[1]);
+    }
     this.cities.remove(cityname);
     this._data.setStringList('cities', this.cities);
     notifyListeners();
